@@ -56,7 +56,7 @@ class SonidoAmbiental {
       volumen := VOLUMEN_MAX;
     }
 
-  // El volumen debe estar en un rango válido
-  assert 0.0 <= volumen <= VOLUMEN_MAX;
+    // El volumen debe estar en un rango válido
+    assert 0.0 <= volumen <= VOLUMEN_MAX;
   }
 }
