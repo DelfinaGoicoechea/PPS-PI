@@ -1,0 +1,92 @@
+{
+	"sesion": {
+		"id": 153,
+		"paciente": "Mirta",
+		"profesional": "viki",
+		"inicio": "2025-07-18T09:33:36.807",
+		"fin": "2025-07-18T09:37:35.832",
+		"estadoInicial": " Bien",
+		"estadoFinal": " Bien",
+		"comentarios": ""
+	},
+	"ejercicios": [
+		{
+			"id": 173,
+			"escena": "Bosque interactivo",
+			"inicio": "2025-07-18T09:33:53.140",
+			"fin": "2025-07-18T09:37:35.823",
+			"sesion": 153,
+			"metricas": [
+				{
+					"id": 293,
+					"ejercicio": 173,
+					"nombre": "Metrica Entradas Collider Gorrion",
+					"data": [
+						"9:37:02: Entrada al collider del gorrion. Total: 1"
+					]
+				},
+				{
+					"id": 294,
+					"ejercicio": 173,
+					"nombre": "Metrica Duracion Inmovilidad",
+					"data": [
+						"Inmovilidad: 9:33:56 | Movimiento: 9:34:00 | Duracion: 3,9 segundos",
+						"Inmovilidad: 9:34:05 | Movimiento: 9:34:07 | Duracion: 2,4 segundos",
+						"Inmovilidad: 9:34:11 | Movimiento: 9:34:42 | Duracion: 31,5 segundos",
+						"Inmovilidad: 9:34:46 | Movimiento: 9:34:53 | Duracion: 7,2 segundos",
+						"Inmovilidad: 9:34:57 | Movimiento: 9:35:01 | Duracion: 4,2 segundos",
+						"Inmovilidad: 9:35:05 | Movimiento: 9:35:55 | Duracion: 49,1 segundos",
+						"Inmovilidad: 9:36:22 | Movimiento: 9:36:47 | Duracion: 25,1 segundos",
+						"Inmovilidad: 9:37:02 | Movimiento: 9:37:02 | Duracion: 0,1 segundos",
+						"Inmovilidad: 9:37:06 | Movimiento: 9:37:08 | Duracion: 1,7 segundos",
+						"Inmovilidad: 9:37:11 | Movimiento: 9:37:23 | Duracion: 11,4 segundos",
+						"Inmovilidad: 9:37:26 | Movimiento: 9:37:30 | Duracion: 4,3 segundos"
+					]
+				},
+				{
+					"id": 295,
+					"ejercicio": 173,
+					"nombre": "Metrica Apertura Flor",
+					"data": [
+						"9:36:24: Flor abierta",
+						"9:36:33: Flor cerrada"
+					]
+				},
+				{
+					"id": 296,
+					"ejercicio": 173,
+					"nombre": "Metrica Tiempo en Collider Gorrion",
+					"data": [
+						"Entrada: 9:37:02 | Salida: 9:37:33 | Duracion: 30,8 segundos"
+					]
+				},
+				{
+					"id": 297,
+					"ejercicio": 173,
+					"nombre": "Metrica Duracion Flor Abierta",
+					"data": [
+						"Abierta: 9:36:24 | Cerrada: 9:36:33 | Duracion: 8,2 segundos"
+					]
+				},
+				{
+					"id": 298,
+					"ejercicio": 173,
+					"nombre": "Metrica Decremento Sonido",
+					"data": [
+						"9:33:56: Decremento de sonido por inmovilidad del usuario",
+						"9:34:05: Decremento de sonido por inmovilidad del usuario",
+						"9:34:11: Decremento de sonido por inmovilidad del usuario",
+						"9:34:46: Decremento de sonido por inmovilidad del usuario",
+						"9:34:57: Decremento de sonido por inmovilidad del usuario",
+						"9:35:05: Decremento de sonido por inmovilidad del usuario",
+						"9:36:22: Decremento de sonido por inmovilidad del usuario",
+						"9:37:02: Decremento de sonido por inmovilidad del usuario",
+						"9:37:06: Decremento de sonido por inmovilidad del usuario",
+						"9:37:11: Decremento de sonido por inmovilidad del usuario",
+						"9:37:26: Decremento de sonido por inmovilidad del usuario"
+					]
+				}
+			]
+		}
+	]
+}

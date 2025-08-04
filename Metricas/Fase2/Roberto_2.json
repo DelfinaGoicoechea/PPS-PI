@@ -1,0 +1,108 @@
+{
+	"sesion": {
+		"id": 155,
+		"paciente": "roberto enrique",
+		"profesional": "viki",
+		"inicio": "2025-07-18T09:48:29.259",
+		"fin": "2025-07-18T09:55:15.831",
+		"estadoInicial": " Bien",
+		"estadoFinal": " Bien",
+		"comentarios": ""
+	},
+	"ejercicios": [
+		{
+			"id": 175,
+			"escena": "Bosque interactivo",
+			"inicio": "2025-07-18T09:49:35.031",
+			"fin": "2025-07-18T09:55:15.814",
+			"sesion": 155,
+			"metricas": [
+				{
+					"id": 305,
+					"ejercicio": 175,
+					"nombre": "Metrica Entradas Collider Gorrion",
+					"data": [
+						"9:53:15: Entrada al collider del gorrion. Total: 1"
+					]
+				},
+				{
+					"id": 306,
+					"ejercicio": 175,
+					"nombre": "Metrica Duracion Inmovilidad",
+					"data": [
+						"Inmovilidad: 9:52:33 | Movimiento: 9:52:36 | Duracion: 2,3 segundos",
+						"Inmovilidad: 9:52:41 | Movimiento: 9:53:02 | Duracion: 20,5 segundos",
+						"Inmovilidad: 9:53:09 | Movimiento: 9:53:12 | Duracion: 2,9 segundos",
+						"Inmovilidad: 9:53:27 | Movimiento: 9:53:28 | Duracion: 1,5 segundos",
+						"Inmovilidad: 9:53:32 | Movimiento: 9:53:43 | Duracion: 11,5 segundos",
+						"Inmovilidad: 9:53:53 | Movimiento: 9:54:02 | Duracion: 8,4 segundos",
+						"Inmovilidad: 9:54:05 | Movimiento: 9:54:07 | Duracion: 1,1 segundos",
+						"Inmovilidad: 9:54:13 | Movimiento: 9:54:15 | Duracion: 1,8 segundos",
+						"Inmovilidad: 9:54:23 | Movimiento: 9:54:35 | Duracion: 11,9 segundos",
+						"Inmovilidad: 9:54:39 | Movimiento: 9:54:44 | Duracion: 4,8 segundos",
+						"Inmovilidad: 9:55:06 | Movimiento: 9:55:09 | Duracion: 2,0 segundos"
+					]
+				},
+				{
+					"id": 307,
+					"ejercicio": 175,
+					"nombre": "Metrica Apertura Flor",
+					"data": [
+						"9:53:50: Flor abierta",
+						"9:53:51: Flor cerrada",
+						"9:53:51: Flor abierta",
+						"9:54:02: Flor cerrada",
+						"9:54:10: Flor abierta",
+						"9:54:15: Flor cerrada",
+						"9:54:20: Flor abierta",
+						"9:54:35: Flor cerrada",
+						"9:55:03: Flor abierta",
+						"9:55:06: Flor cerrada",
+						"9:55:07: Flor abierta",
+						"9:55:09: Flor cerrada"
+					]
+				},
+				{
+					"id": 308,
+					"ejercicio": 175,
+					"nombre": "Metrica Tiempo en Collider Gorrion",
+					"data": [
+						"Entrada: 9:53:15 | Salida: 9:53:46 | Duracion: 30,1 segundos"
+					]
+				},
+				{
+					"id": 309,
+					"ejercicio": 175,
+					"nombre": "Metrica Duracion Flor Abierta",
+					"data": [
+						"Abierta: 9:53:50 | Cerrada: 9:53:51 | Duracion: 1,0 segundos",
+						"Abierta: 9:53:51 | Cerrada: 9:54:02 | Duracion: 11,1 segundos",
+						"Abierta: 9:54:10 | Cerrada: 9:54:15 | Duracion: 5,0 segundos",
+						"Abierta: 9:54:20 | Cerrada: 9:54:35 | Duracion: 15,7 segundos",
+						"Abierta: 9:55:03 | Cerrada: 9:55:06 | Duracion: 3,3 segundos",
+						"Abierta: 9:55:07 | Cerrada: 9:55:09 | Duracion: 2,2 segundos"
+					]
+				},
+				{
+					"id": 310,
+					"ejercicio": 175,
+					"nombre": "Metrica Decremento Sonido",
+					"data": [
+						"9:52:33: Decremento de sonido por inmovilidad del usuario",
+						"9:52:41: Decremento de sonido por inmovilidad del usuario",
+						"9:53:09: Decremento de sonido por inmovilidad del usuario",
+						"9:53:27: Decremento de sonido por inmovilidad del usuario",
+						"9:53:32: Decremento de sonido por inmovilidad del usuario",
+						"9:53:53: Decremento de sonido por inmovilidad del usuario",
+						"9:54:05: Decremento de sonido por inmovilidad del usuario",
+						"9:54:13: Decremento de sonido por inmovilidad del usuario",
+						"9:54:23: Decremento de sonido por inmovilidad del usuario",
+						"9:54:39: Decremento de sonido por inmovilidad del usuario",
+						"9:55:06: Decremento de sonido por inmovilidad del usuario",
+						"9:55:13: Decremento de sonido por inmovilidad del usuario"
+					]
+				}
+			]
+		}
+	]
+}
