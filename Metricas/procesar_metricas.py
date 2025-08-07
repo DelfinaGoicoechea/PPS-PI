@@ -35,7 +35,6 @@ def process_file(filepath):
         "time_flower_open": 0.0
     }
     
-    # General strategy functions that can be parameterized
     def count_non_empty(values):
         """Count non-empty values"""
         return sum(1 for v in values if v.strip())
@@ -48,7 +47,6 @@ def process_file(filepath):
         """Sum time durations from metric strings"""
         return sum(parse_seconds_from_string(v) for v in values if v.strip())
     
-    # Strategy dictionary with parameterized strategies
     metric_handlers = {
         METRICS["collider_entries"]: ("collider_entries", count_non_empty),
         METRICS["sound_decrements"]: ("sound_decrements", count_non_empty),
@@ -82,8 +80,6 @@ def process_all_files():
     
     for idx, directory in enumerate(directories, 1):
         phase = f"Fase{idx}"
-        # Extract just the directory name for the person name extraction
-        dir_name = os.path.basename(directory)
         for filename in os.listdir(directory):
             if filename.endswith('.json'):
                 person = get_person_name(filename)
