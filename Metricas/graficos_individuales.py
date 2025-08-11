@@ -1,3 +1,4 @@
+import os
 import matplotlib.pyplot as plt
 from procesar_metricas import process_all_files
 
@@ -11,7 +12,13 @@ METRIC_LABELS = {
     "time_flower_open": "Tiempo Flor Abierta (s)"
 }
 
-def plot_person_comparison(person, phases):
+def ensure_output_dir():
+    """Create and return the output directory for individual charts"""
+    output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'graficos_individuales')
+    os.makedirs(output_dir, exist_ok=True)
+    return output_dir
+
+def plot_person_comparison(person, phases, output_dir):
     """Generate a comparison chart for one person's metrics between phases"""
     metrics = list(METRIC_LABELS.keys())
     labels = [METRIC_LABELS[m] for m in metrics]
@@ -21,29 +28,40 @@ def plot_person_comparison(person, phases):
     x = range(len(metrics))
     width = 0.35
     
-    plt.figure(figsize=(12, 6))
+    fig, ax = plt.subplots(figsize=(12, 6))
     
     # Create bars
-    bars1 = plt.bar([i - width/2 for i in x], fase1, width, label="Fase 1", alpha=0.8)
-    bars2 = plt.bar([i + width/2 for i in x], fase2, width, label="Fase 2", alpha=0.8)
+    bars1 = ax.bar([i - width/2 for i in x], fase1, width, label="Fase 1", alpha=0.8)
+    bars2 = ax.bar([i + width/2 for i in x], fase2, width, label="Fase 2", alpha=0.8)
     
     # Add value labels on top of each bar
     def add_value_labels(bars, values):
         for bar, value in zip(bars, values):
             height = bar.get_height()
-            plt.text(bar.get_x() + bar.get_width()/2., height + max(values)*0.01,
+            ax.text(bar.get_x() + bar.get_width()/2., height + max(values)*0.01,
                     f'{value:.1f}', ha='center', va='bottom', fontsize=9)
     
     add_value_labels(bars1, fase1)
     add_value_labels(bars2, fase2)
     
-    plt.xticks(x, labels, rotation=20, ha='right')
-    plt.ylabel("Valor")
-    plt.title(f"Comparación de métricas: {person.capitalize()}")
-    plt.legend()
-    plt.grid(axis='y', alpha=0.3)
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels, rotation=20, ha='right')
+    ax.set_xlabel("Métricas", fontweight='bold')
+    ax.set_ylabel("Valor", fontweight='bold')
+    ax.set_title(f"Comparación de métricas: {person.capitalize()}", fontweight='bold')
+    ax.legend()
+    ax.grid(axis='y', alpha=0.3)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
     plt.tight_layout()
-    plt.show()
+    
+    # Save figure
+    safe_person_name = person.replace(' ', '_')
+    filename = f'{safe_person_name}_individual.png'
+    filepath = os.path.join(output_dir, filename)
+    plt.savefig(filepath, bbox_inches='tight', dpi=300)
+    plt.close(fig)
+    print(f'Gráfico guardado: {filepath}')
 
 def generate_all_graphs():
     """Generate comparison graphs for all persons"""
@@ -52,15 +70,19 @@ def generate_all_graphs():
     
     print("Generando gráficos individuales...")
     
+    # Create output directory
+    output_dir = ensure_output_dir()
+    
     for person, phases in person_results.items():
         print(f"Generando gráfico para: {person.capitalize()}")
-        plot_person_comparison(person, phases)
+        plot_person_comparison(person, phases, output_dir)
 
 def main():
     """Main function to generate all individual graphs"""
     try:
         generate_all_graphs()
-        print("¡Todos los gráficos han sido generados!")
+        output_dir = ensure_output_dir()
+        print(f"¡Todos los gráficos han sido generados en {output_dir}!")
     except Exception as e:
         print(f"Error al generar los gráficos: {e}")
 

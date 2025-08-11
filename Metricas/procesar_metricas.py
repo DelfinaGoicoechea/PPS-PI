@@ -1,4 +1,5 @@
 import os
+import csv
 import json
 import re
 from collections import defaultdict
@@ -89,6 +90,46 @@ def process_all_files():
     
     return person_results
 
+def save_to_csv(person_results, filename="datos_procesados.csv"):
+    """
+    Save the processed results to a CSV file.
+    """
+    if not person_results:
+        print("No hay datos para guardar.")
+        return
+    
+    # Get the script directory for saving the file
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    filepath = os.path.join(script_dir, filename)
+    
+    # Define the fieldnames for the CSV
+    fieldnames = [
+        "Participante", "Fase", "Entradas_Collider", "Decrementos_Sonido", 
+        "Aperturas_Flor", "Tiempo_Collider", "Tiempo_Inmovil", "Tiempo_Flor_Abierta"
+    ]
+    
+    with open(filepath, 'w', newline='', encoding='utf-8') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        
+        for person, phases in person_results.items():
+            for phase in ["Fase1", "Fase2"]:
+                if phase in phases:
+                    summary = phases[phase]
+                    row = {
+                        "Participante": person.capitalize(),
+                        "Fase": phase,
+                        "Entradas_Collider": summary['collider_entries'],
+                        "Decrementos_Sonido": summary['sound_decrements'],
+                        "Aperturas_Flor": summary['flower_openings'],
+                        "Tiempo_Collider": round(summary['time_in_collider'], 2),
+                        "Tiempo_Inmovil": round(summary['time_stationary'], 2),
+                        "Tiempo_Flor_Abierta": round(summary['time_flower_open'], 2)
+                    }
+                    writer.writerow(row)
+    
+    print(f"Datos procesados guardados en: {filepath}")
+
 def print_summary(person_results):
     """Print a summary of results for each person"""
     for person, phases in person_results.items():
@@ -111,4 +152,7 @@ if __name__ == "__main__":
     person_results = process_all_files()
     
     # Print summary
-    print_summary(person_results) 
+    print_summary(person_results)
+    
+    # Save to CSV
+    save_to_csv(person_results) 
