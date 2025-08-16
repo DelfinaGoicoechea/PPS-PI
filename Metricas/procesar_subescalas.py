@@ -1,5 +1,4 @@
 import os
-import csv
 import pandas as pd
 
 # Define subscales and their corresponding questions
@@ -49,95 +48,51 @@ def calculate_global_mean(data):
 def process_experience_data(csv_file_path):
     """Process the experience data CSV file using pandas"""
     
-    # Read the CSV file with pandas, skipping the first row (FASE 1, FASE 2 headers)
-    df = pd.read_csv(csv_file_path, skiprows=1, index_col=0)
-    
-    # Get participant names from columns
-    participants = df.columns.tolist()
-    
-    # Automatically detect phases by analyzing column names
-    phases = []
-    phase_participants = {}
-    
-    # Strategy 1: Check if this is a standard 2-phase format (like Datos_experiencia.csv)
-    # In this format, the first half of participants are FASE 1, second half are FASE 2
-    if len(participants) >= 2:
-        # Split participants into phases
-        mid_point = len(participants) // 2
-        phases = ["FASE 1", "FASE 2"]
-        phase_participants = {
-            "FASE 1": participants[:mid_point],
-            "FASE 2": participants[mid_point:]
-        }
-    
-    # Strategy 2: Look for patterns like ".1", ".2", etc. (for other formats)
-    else:
-        participant_counts = {}
-        for participant in participants:
-            base_name = participant.split('.')[0]  # Remove .1, .2, etc.
-            participant_counts[base_name] = participant_counts.get(base_name, 0) + 1
-        
-        if max(participant_counts.values()) > 1:
-            # Multiple phases detected with naming pattern
-            unique_base_names = list(participant_counts.keys())
-            for i, base_name in enumerate(unique_base_names):
-                phase_name = f"FASE {i+1}"
-                phases.append(phase_name)
-                phase_participants[phase_name] = []
-                
-                # Find all participants for this phase
-                for participant in participants:
-                    if participant.startswith(base_name):
-                        phase_participants[phase_name].append(participant)
-        
-        # Strategy 3: Single phase
-        else:
-            phases = ["FASE 1"]
-            phase_participants = {"FASE 1": participants}
+    # Read the CSV file with pandas - no need to skip rows or set index
+    df = pd.read_csv(csv_file_path)
     
     # Results storage
     subscale_results = []
     global_results = []
     
-    # Process each phase
-    for phase in phases:
-        for participant in phase_participants[phase]:
-            participant_data = {}
-            
-            # Extract question values for this participant
-            for question in range(1, 27):
-                if question in df.index:
-                    value = df.loc[question, participant]
-                    if pd.notna(value):  # Check if value is not NaN
-                        participant_data[question] = int(value)
-                    else:
-                        participant_data[question] = 0
-                else:
-                    participant_data[question] = 0
-            
-            # Calculate subscale means
-            subscale_means = {}
-            for subscale_name, questions in SUBCALES.items():
-                mean = calculate_subscale_mean(participant_data, questions)
-                subscale_means[subscale_name] = round(mean, 2)
-            
-            # Calculate global mean
-            global_mean = round(calculate_global_mean(participant_data), 2)
-            
-            # Store results
-            subscale_row = {
-                'Participante': participant,
-                'Fase': phase,
-                **subscale_means
-            }
-            subscale_results.append(subscale_row)
-            
-            global_row = {
-                'Participante': participant,
-                'Fase': phase,
-                'Media_Global': global_mean
-            }
-            global_results.append(global_row)
+    # Process each row (each row represents one participant-phase combination)
+    for index, row in df.iterrows():
+        participant = row['Participante']
+        phase_num = row['Fase']
+        phase = f"FASE {phase_num}"
+        
+        # Extract question values for this participant-phase
+        participant_data = {}
+        for question in range(1, 27):
+            value = row[str(question)]
+            if pd.notna(value):  # Check if value is not NaN
+                participant_data[question] = int(value)
+            else:
+                participant_data[question] = 0
+        
+        # Calculate subscale means
+        subscale_means = {}
+        for subscale_name, questions in SUBCALES.items():
+            mean = calculate_subscale_mean(participant_data, questions)
+            subscale_means[subscale_name] = round(mean, 2)
+        
+        # Calculate global mean
+        global_mean = round(calculate_global_mean(participant_data), 2)
+        
+        # Store results
+        subscale_row = {
+            'Participante': participant,
+            'Fase': phase,
+            **subscale_means
+        }
+        subscale_results.append(subscale_row)
+        
+        global_row = {
+            'Participante': participant,
+            'Fase': phase,
+            'Media_Global': global_mean
+        }
+        global_results.append(global_row)
     
     return subscale_results, global_results
 
