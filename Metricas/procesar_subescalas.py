@@ -56,15 +56,16 @@ def process_experience_data(csv_file_path):
     global_results = []
     
     # Process each row (each row represents one participant-phase combination)
-    for index, row in df.iterrows():
-        participant = row['Participante']
-        phase_num = row['Fase']
+    for row in df.itertuples(index=False, name=None):
+        # row is a tuple: (Participante, Fase, 1, 2, 3, ..., 26)
+        participant = row[0]
+        phase_num = row[1]
         phase = f"FASE {phase_num}"
         
         # Extract question values for this participant-phase
         participant_data = {}
         for question in range(1, 27):
-            value = row[str(question)]
+            value = row[question+1]
             if pd.notna(value):  # Check if value is not NaN
                 participant_data[question] = int(value)
             else:
@@ -195,7 +196,7 @@ def main():
     try:
         # Define file paths
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        data_dir = os.path.join(script_dir, 'Datos')
+        data_dir = os.path.join(script_dir, 'Datos_autocompasion')
         
         # Let user select CSV file
         selected_file = select_csv_file(data_dir)
