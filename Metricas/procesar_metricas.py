@@ -3,6 +3,7 @@ import csv
 import json
 import re
 from collections import defaultdict
+from anonimizador import anonymize_name, save_mapping
 
 # Directories to process
 # Get the directory where this script is located
@@ -72,7 +73,8 @@ def process_file(filepath):
 
 def get_person_name(filename):
     # Extracts the name from the filename, e.g., Hugo_1.json -> hugo
-    return filename.split('_')[0].lower()
+    real_name = filename.split('_')[0].upper()
+    return anonymize_name(real_name)
 
 def process_all_files():
     """Process all JSON files and return results organized by person and phase"""
@@ -147,7 +149,7 @@ def print_summary(person_results):
             else:
                 print(f"  {phase}: No data")
 
-if __name__ == "__main__":
+def main():
     # Process all files
     person_results = process_all_files()
     
@@ -155,4 +157,10 @@ if __name__ == "__main__":
     print_summary(person_results)
     
     # Save to CSV
-    save_to_csv(person_results) 
+    save_to_csv(person_results)
+
+    # Guardar el mapa real → alias en la carpeta Metricas/
+    save_mapping()
+
+if __name__ == "__main__":
+     main()

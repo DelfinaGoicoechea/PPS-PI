@@ -1,7 +1,8 @@
 import os
 import pandas as pd
+from anonimizador import anonymize_name, save_mapping
 
-# Define subscales and their corresponding questions
+# Define subescalas y sus preguntas correspondientes
 SUBCALES = {
     'Auto-amabilidad': [5, 12, 19, 23, 26],
     'Humanidad_comun': [3, 7, 10, 15],
@@ -11,20 +12,20 @@ SUBCALES = {
     'Sobre-identificacion': [2, 6, 20, 24]
 }
 
-# Questions that need to be inverted for global mean calculation
+# Preguntas que necesitan ser invertidas para el calculo de la media global
 INVERTED_QUESTIONS = [1, 2, 4, 6, 8, 11, 13, 16, 18, 20, 21, 24, 25]
 
 def invert_value(value):
-    """Invert a value: 1->5, 2->4, 3->3, 4->2, 5->1"""
-    if value == 0:  # Handle missing values
+    """Invertir un valor: 1->5, 2->4, 3->3, 4->2, 5->1"""
+    if value == 0:  # Manejar valores faltantes
         return 0
     return 6 - value
 
 def calculate_subscale_mean(data, questions):
-    """Calculate mean for a specific subscale"""
+    """Calcular la media para una subescala especifica"""
     values = []
     for q in questions:
-        if q in data and data[q] != 0:  # Exclude missing values (0)
+        if q in data and data[q] != 0:  # Excluir valores faltantes (0)
             values.append(data[q])
     
     if not values:
@@ -32,10 +33,10 @@ def calculate_subscale_mean(data, questions):
     return sum(values) / len(values)
 
 def calculate_global_mean(data):
-    """Calculate global mean with inverted values for specific questions"""
+    """Calcular la media global con valores invertidos para preguntas especificas"""
     values = []
-    for q in range(1, 27):  # Questions 1-26
-        if q in data and data[q] != 0:  # Exclude missing values
+    for q in range(1, 27):  # Preguntas 1-26
+        if q in data and data[q] != 0:  # Excluir valores faltantes
             value = data[q]
             if q in INVERTED_QUESTIONS:
                 value = invert_value(value)
@@ -46,41 +47,42 @@ def calculate_global_mean(data):
     return sum(values) / len(values)
 
 def process_experience_data(csv_file_path):
-    """Process the experience data CSV file using pandas"""
+    """Procesar los datos de la experiencia CSV usando pandas"""
     
-    # Read the CSV file with pandas - no need to skip rows or set index
+    # Leer el archivo CSV con pandas
     df = pd.read_csv(csv_file_path)
     
-    # Results storage
+    # Almacenamiento de resultados
     subscale_results = []
     global_results = []
     
-    # Process each row (each row represents one participant-phase combination)
+    # Procesar cada fila (cada fila representa una combinacion de participante-fase)
     for row in df.itertuples(index=False, name=None):
-        # row is a tuple: (Participante, Fase, 1, 2, 3, ..., 26)
-        participant = row[0]
-        phase_num = row[1]
-        phase = f"FASE {phase_num}"
+        # row es una tupla: (Participante, Fase, 1, 2, 3, ..., 26)
+        real_participant = row[0]
+        participant = anonymize_name(real_participant)
+        phase_value = str(row[1]).strip()
+        phase = f"FASE {phase_value}"
         
-        # Extract question values for this participant-phase
+        # Extraer valores de preguntas para este participante-fase
         participant_data = {}
         for question in range(1, 27):
             value = row[question+1]
-            if pd.notna(value):  # Check if value is not NaN
+            if pd.notna(value):  # Verificar si el valor no es NaN
                 participant_data[question] = int(value)
             else:
                 participant_data[question] = 0
         
-        # Calculate subscale means
+        # Calcular medias de subescalas
         subscale_means = {}
         for subscale_name, questions in SUBCALES.items():
             mean = calculate_subscale_mean(participant_data, questions)
             subscale_means[subscale_name] = round(mean, 2)
         
-        # Calculate global mean
+        # Calcular media global
         global_mean = round(calculate_global_mean(participant_data), 2)
         
-        # Store results
+        # Almacenar resultados
         subscale_row = {
             'Participante': participant,
             'Fase': phase,
@@ -98,49 +100,49 @@ def process_experience_data(csv_file_path):
     return subscale_results, global_results
 
 def save_results(subscale_results, global_results, output_dir, input_filename):
-    """Save results to CSV files using pandas"""
+    """Guardar resultados en archivos CSV usando pandas"""
     
-    # Create results directory inside the data directory
+    # Crear directorio de resultados dentro del directorio de datos
     results_dir = os.path.join(output_dir, 'Resultados')
     os.makedirs(results_dir, exist_ok=True)
     
-    # Generate output filenames based on input filename
-    base_name = os.path.splitext(input_filename)[0]  # Remove .csv extension
+    # Generar nombres de salida basados en el nombre de archivo de entrada
+    base_name = os.path.splitext(input_filename)[0]  # Eliminar la extension .csv
     subscale_file = os.path.join(results_dir, f'{base_name}_subescalas.csv')
     global_file = os.path.join(results_dir, f'{base_name}_global.csv')
     
-    # Save subscale results
+    # Guardar resultados de subescalas
     if subscale_results:
         subscale_df = pd.DataFrame(subscale_results)
         subscale_df.to_csv(subscale_file, index=False, encoding='utf-8')
         print(f"Resultados de subescalas guardados en: {subscale_file}")
     
-    # Save global results
+    # Guardar resultados globales
     if global_results:
         global_df = pd.DataFrame(global_results)
         global_df.to_csv(global_file, index=False, encoding='utf-8')
         print(f"Resultados de media global guardados en: {global_file}")
 
 def print_summary(subscale_results, global_results):
-    """Print a summary of the results"""
+    """Imprimir un resumen de los resultados"""
     print("\n" + "="*80)
     print("RESUMEN DE RESULTADOS")
     print("="*80)
     
-    # Group by participant
+    # Agrupar por participante
     participants = sorted(set(r['Participante'] for r in subscale_results))
     
     for participant in participants:
         print(f"\nParticipante: {participant}")
         print("-" * 60)
         
-        # Get all phases for this participant
+        # Obtener todas las fases para este participante
         participant_phases = sorted(set(r['Fase'] for r in subscale_results if r['Participante'] == participant))
         
         for phase in participant_phases:
             print(f"\n{phase}:")
             
-            # Find subscale results for this participant and phase
+            # Encontrar resultados de subescala para este participante y fase
             subscale_data = next((r for r in subscale_results 
                                  if r['Participante'] == participant and r['Fase'] == phase), None)
             
@@ -148,7 +150,7 @@ def print_summary(subscale_results, global_results):
                 for subscale_name in SUBCALES.keys():
                     print(f"  {subscale_name}: {subscale_data[subscale_name]}")
             
-            # Find global result for this participant and phase
+            # Encontrar resultado global para este participante y fase
             global_data = next((r for r in global_results 
                                if r['Participante'] == participant and r['Fase'] == phase), None)
             
@@ -156,7 +158,7 @@ def print_summary(subscale_results, global_results):
                 print(f"  Media Global: {global_data['Media_Global']}")
 
 def list_available_files(data_dir):
-    """List all CSV files in the data directory (excluding results folder)"""
+    """Listar todos los archivos CSV en el directorio de datos (excluyendo el directorio de resultados)"""
     csv_files = []
     if os.path.exists(data_dir):
         for file in os.listdir(data_dir):
@@ -165,7 +167,7 @@ def list_available_files(data_dir):
     return sorted(csv_files)
 
 def select_csv_file(data_dir):
-    """Let user select which CSV file to process"""
+    """Permitir al usuario seleccionar que archivo CSV procesar"""
     csv_files = list_available_files(data_dir)
     
     if not csv_files:
@@ -187,35 +189,38 @@ def select_csv_file(data_dir):
             if 1 <= choice_num <= len(csv_files):
                 return csv_files[choice_num - 1]
             else:
-                print(f"Por favor ingrese un número entre 1 y {len(csv_files)}")
+                print(f"Por favor ingrese un numero entre 1 y {len(csv_files)}")
         except ValueError:
-            print("Por favor ingrese un número válido")
+            print("Por favor ingrese un numero valido")
 
 def main():
-    """Main function to process experience data"""
+    """Funcion principal para procesar los datos de la experiencia"""
     try:
-        # Define file paths
+        # Definir rutas de archivos
         script_dir = os.path.dirname(os.path.abspath(__file__))
         data_dir = os.path.join(script_dir, 'Datos_autocompasion')
         
-        # Let user select CSV file
+        # Permitir al usuario seleccionar el archivo CSV
         selected_file = select_csv_file(data_dir)
         if not selected_file:
-            print("No se seleccionó ningún archivo. Saliendo...")
+            print("No se selecciono ningun archivo. Saliendo...")
             return
         
         csv_file = os.path.join(data_dir, selected_file)
         
         print(f"\nProcesando archivo: {selected_file}")
         
-        # Process the data
+        # Procesar los datos
         subscale_results, global_results = process_experience_data(csv_file)
         
-        # Save results
+        # Guardar resultados
         save_results(subscale_results, global_results, data_dir, selected_file)
         
-        # Print summary
+        # Imprimir resumen
         print_summary(subscale_results, global_results)
+
+        # Guardar el mapa real → alias en la carpeta Metricas/
+        save_mapping()
         
         print(f"\n¡Procesamiento completado! Se procesaron {len(subscale_results)} registros.")
         

@@ -1,68 +1,102 @@
 {
 	"sesion": {
-		"id": 152,
+		"id": 169,
 		"paciente": "MABEL",
 		"profesional": "viki",
-		"inicio": "2025-07-18T09:28:37.177",
-		"fin": "2025-07-18T09:32:36.745",
+		"inicio": "2025-08-18T09:31:28.669",
+		"fin": "2025-08-18T09:35:51.400",
 		"estadoInicial": " Bien",
 		"estadoFinal": " Contento",
 		"comentarios": ""
 	},
 	"ejercicios": [
 		{
-			"id": 172,
+			"id": 209,
 			"escena": "Bosque interactivo",
-			"inicio": "2025-07-18T09:29:06.370",
-			"fin": "2025-07-18T09:32:36.728",
-			"sesion": 152,
+			"inicio": "2025-08-18T09:32:37.950",
+			"fin": "2025-08-18T09:35:51.390",
+			"sesion": 169,
 			"metricas": [
 				{
-					"id": 287,
-					"ejercicio": 172,
+					"id": 390,
+					"ejercicio": 209,
 					"nombre": "Metrica Entradas Collider Gorrion",
 					"data": [
-						""
+						"9:33:38: Entrada al collider del gorrion. Total: 1",
+						"9:33:48: Entrada al collider del gorrion. Total: 2",
+						"9:34:15: Entrada al collider del gorrion. Total: 3"
 					]
 				},
 				{
-					"id": 288,
-					"ejercicio": 172,
+					"id": 391,
+					"ejercicio": 209,
 					"nombre": "Metrica Duracion Inmovilidad",
 					"data": [
-						""
+						"Inmovilidad: 9:32:41 | Movimiento: 9:32:49 | Duracion: 8,0 segundos",
+						"Inmovilidad: 9:33:02 | Movimiento: 9:33:12 | Duracion: 10,0 segundos",
+						"Inmovilidad: 9:33:17 | Movimiento: 9:33:21 | Duracion: 3,6 segundos",
+						"Inmovilidad: 9:33:31 | Movimiento: 9:33:32 | Duracion: 1,0 segundos",
+						"Inmovilidad: 9:33:45 | Movimiento: 9:33:45 | Duracion: 0,2 segundos",
+						"Inmovilidad: 9:33:55 | Movimiento: 9:34:00 | Duracion: 4,8 segundos",
+						"Inmovilidad: 9:34:44 | Movimiento: 9:34:54 | Duracion: 9,6 segundos",
+						"Inmovilidad: 9:35:15 | Movimiento: 9:35:16 | Duracion: 0,5 segundos",
+						"Inmovilidad: 9:35:21 | Movimiento: 9:35:24 | Duracion: 3,0 segundos",
+						"Inmovilidad: 9:35:28 | Movimiento: 9:35:33 | Duracion: 5,7 segundos",
+						"Inmovilidad: 9:35:37 | Movimiento: 9:35:40 | Duracion: 3,2 segundos",
+						"Inmovilidad: 9:35:43 | Movimiento: 9:35:43 | Duracion: 0,0 segundos"
 					]
 				},
 				{
-					"id": 289,
-					"ejercicio": 172,
+					"id": 392,
+					"ejercicio": 209,
 					"nombre": "Metrica Apertura Flor",
 					"data": [
-						""
+						"9:35:01: Flor abierta",
+						"9:35:03: Flor cerrada",
+						"9:35:24: Flor abierta",
+						"9:35:30: Flor cerrada",
+						"9:35:44: Flor abierta",
+						"9:35:45: Flor cerrada"
 					]
 				},
 				{
-					"id": 290,
-					"ejercicio": 172,
+					"id": 393,
+					"ejercicio": 209,
 					"nombre": "Metrica Tiempo en Collider Gorrion",
 					"data": [
-						""
+						"Entrada: 9:33:38 | Salida: 9:33:47 | Duracion: 9,5 segundos",
+						"Entrada: 9:33:48 | Salida: 9:34:02 | Duracion: 13,7 segundos",
+						"Entrada: 9:34:15 | Salida: 9:34:15 | Duracion: 0,3 segundos"
 					]
 				},
 				{
-					"id": 291,
-					"ejercicio": 172,
+					"id": 394,
+					"ejercicio": 209,
 					"nombre": "Metrica Duracion Flor Abierta",
 					"data": [
-						""
+						"Abierta: 9:35:01 | Cerrada: 9:35:03 | Duracion: 2,5 segundos",
+						"Abierta: 9:35:24 | Cerrada: 9:35:30 | Duracion: 5,9 segundos",
+						"Abierta: 9:35:44 | Cerrada: 9:35:45 | Duracion: 0,8 segundos"
 					]
 				},
 				{
-					"id": 292,
-					"ejercicio": 172,
+					"id": 395,
+					"ejercicio": 209,
 					"nombre": "Metrica Decremento Sonido",
 					"data": [
-						"9:32:26: Decremento de sonido por inmovilidad del usuario"
+						"9:32:41: Decremento de sonido por inmovilidad del usuario",
+						"9:33:02: Decremento de sonido por inmovilidad del usuario",
+						"9:33:17: Decremento de sonido por inmovilidad del usuario",
+						"9:33:31: Decremento de sonido por inmovilidad del usuario",
+						"9:33:45: Decremento de sonido por inmovilidad del usuario",
+						"9:33:55: Decremento de sonido por inmovilidad del usuario",
+						"9:34:44: Decremento de sonido por inmovilidad del usuario",
+						"9:35:15: Decremento de sonido por inmovilidad del usuario",
+						"9:35:21: Decremento de sonido por inmovilidad del usuario",
+						"9:35:28: Decremento de sonido por inmovilidad del usuario",
+						"9:35:37: Decremento de sonido por inmovilidad del usuario",
+						"9:35:43: Decremento de sonido por inmovilidad del usuario",
+						"9:35:47: Decremento de sonido por inmovilidad del usuario"
 					]
 				}
 			]

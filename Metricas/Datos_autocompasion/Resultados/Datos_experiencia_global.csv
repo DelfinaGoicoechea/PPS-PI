@@ -1,13 +1,13 @@
 Participante,Fase,Media_Global
-Stella Maris,FASE 1,2.06
-Mirta,FASE 1,2.73
-Hugo,FASE 1,3.38
-Mabel,FASE 1,2.92
-Roberto,FASE 1,3.04
-Olga Raquel,FASE 1,0.0
-Stella Maris,FASE 2,0.0
-Mirta,FASE 2,2.77
-Hugo,FASE 2,3.62
-Mabel,FASE 2,2.81
-Roberto,FASE 2,3.0
-Olga Raquel,FASE 2,2.68
+Part3,FASE 1 POST,2.73
+Part1,FASE 1 POST,3.38
+Part2,FASE 1 POST,2.92
+Part4,FASE 1 POST,3.04
+Part3,FASE 2 PRE,2.77
+Part1,FASE 2 PRE,3.62
+Part2,FASE 2 PRE,2.81
+Part4,FASE 2 PRE,2.92
+Part3,FASE 2 POST,2.92
+Part1,FASE 2 POST,3.77
+Part2,FASE 2 POST,2.81
+Part4,FASE 2 POST,2.88

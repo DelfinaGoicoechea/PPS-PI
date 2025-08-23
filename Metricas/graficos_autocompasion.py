@@ -1,6 +1,7 @@
 import os
 import matplotlib.pyplot as plt
 from procesar_subescalas import process_experience_data, select_csv_file
+#from anonimizador import anonymize_name, save_mapping
 
 # Etiquetas de subescalas (deben coincidir con las del script procesar_subescalas.py)
 SUBSCALES = [
@@ -20,10 +21,10 @@ def ensure_output_dir():
 
 def plot_autocompasion_person(participant, phases_data, global_data, output_dir):
     """
-    Generar gráfico comparativo de subescalas para un participante en distintas fases,
-    mostrando también su media global.
+    Generar grafico comparativo de subescalas para un participante en distintas fases,
+    mostrando tambien su media global.
     """
-    fases = sorted(phases_data.keys())
+    fases = list(phases_data.keys())
     num_fases = len(fases)
     x = range(len(SUBSCALES))
     width = 0.8 / num_fases  # ancho dinamico segun cantidad de fases
@@ -93,27 +94,27 @@ def generate_all_graphs(csv_file):
         plot_autocompasion_person(participant, phases_data, global_data, output_dir)
 
 def main():
-    """Función principal para generar gráficos"""
+    """Funcion principal para generar graficos"""
     try:
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        data_dir = os.path.join(script_dir, 'Datos')
+        data_dir = os.path.join(script_dir, 'Datos_autocompasion')
         
         # Dejar que el usuario elija archivo (igual que en procesar_subescalas.py)
         selected_file = select_csv_file(data_dir)
         if not selected_file:
-            print("No se seleccionó ningún archivo. Saliendo...")
+            print("No se selecciono ningun archivo. Saliendo...")
             return
         
         csv_file = os.path.join(data_dir, selected_file)
-        print(f"\nGenerando gráficos a partir de: {csv_file}")
+        print(f"\nGenerando graficos a partir de: {csv_file}")
         
         generate_all_graphs(csv_file)
         
         output_dir = ensure_output_dir()
-        print(f"¡Todos los gráficos han sido generados en {output_dir}!")
+        print(f"¡Todos los graficos han sido generados en {output_dir}!")
     
     except Exception as e:
-        print(f"Error al generar los gráficos: {e}")
+        print(f"Error al generar los graficos: {e}")
 
 if __name__ == "__main__":
     main()
