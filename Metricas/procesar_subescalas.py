@@ -12,35 +12,36 @@ SUBCALES = {
     'Sobre-identificacion': [2, 6, 20, 24]
 }
 
-# Preguntas que necesitan ser invertidas para el calculo de la media global
+# Preguntas que necesitan ser invertidas para subescalas negativas
 INVERTED_QUESTIONS = [1, 2, 4, 6, 8, 11, 13, 16, 18, 20, 21, 24, 25]
+
+# Subescalas negativas que requieren inversión de valores
+NEGATIVE_SUBSCALES = ['Auto-juicio', 'Aislamiento', 'Sobre-identificacion']
 
 def invert_value(value):
     """Invertir un valor: 1->5, 2->4, 3->3, 4->2, 5->1"""
-    if value == 0:  # Manejar valores faltantes
-        return 0
+    # No se deben poner valores en 0. Todas las preguntas se encuentran respondidas
     return 6 - value
 
-def calculate_subscale_mean(data, questions):
-    """Calcular la media para una subescala especifica"""
+def calculate_subscale_mean(data, questions, subscale_name):
+    """Calcular la media para una subescala especifica, invirtiendo valores si es una subescala negativa"""
     values = []
     for q in questions:
         if q in data and data[q] != 0:  # Excluir valores faltantes (0)
-            values.append(data[q])
+            value = data[q]
+            # Si es una subescala negativa, invertir los valores de las preguntas invertidas
+            if subscale_name in NEGATIVE_SUBSCALES and q in INVERTED_QUESTIONS:
+                value = invert_value(value)
+            values.append(value)
     
     if not values:
         return 0.0
     return sum(values) / len(values)
 
-def calculate_global_mean(data):
-    """Calcular la media global con valores invertidos para preguntas especificas"""
-    values = []
-    for q in range(1, 27):  # Preguntas 1-26
-        if q in data and data[q] != 0:  # Excluir valores faltantes
-            value = data[q]
-            if q in INVERTED_QUESTIONS:
-                value = invert_value(value)
-            values.append(value)
+def calculate_global_mean(subscale_means):
+    """Calcular la media global promediando las medias de las seis subescalas"""
+    # Las subescalas negativas ya tienen sus valores invertidos en calculate_subscale_mean
+    values = list(subscale_means.values())
     
     if not values:
         return 0.0
@@ -76,26 +77,20 @@ def process_experience_data(csv_file_path):
         # Calcular medias de subescalas
         subscale_means = {}
         for subscale_name, questions in SUBCALES.items():
-            mean = calculate_subscale_mean(participant_data, questions)
+            mean = calculate_subscale_mean(participant_data, questions, subscale_name)
             subscale_means[subscale_name] = round(mean, 2)
         
         # Calcular media global
-        global_mean = round(calculate_global_mean(participant_data), 2)
+        global_mean = round(calculate_global_mean(subscale_means), 2)
         
         # Almacenar resultados
         subscale_row = {
             'Participante': participant,
             'Fase': phase,
-            **subscale_means
-        }
-        subscale_results.append(subscale_row)
-        
-        global_row = {
-            'Participante': participant,
-            'Fase': phase,
+            **subscale_means,
             'Media_Global': global_mean
         }
-        global_results.append(global_row)
+        subscale_results.append(subscale_row)
     
     return subscale_results, global_results
 
@@ -108,54 +103,13 @@ def save_results(subscale_results, global_results, output_dir, input_filename):
     
     # Generar nombres de salida basados en el nombre de archivo de entrada
     base_name = os.path.splitext(input_filename)[0]  # Eliminar la extension .csv
-    subscale_file = os.path.join(results_dir, f'{base_name}_subescalas.csv')
-    global_file = os.path.join(results_dir, f'{base_name}_global.csv')
+    subscale_file = os.path.join(results_dir, f'{base_name}_promedios.csv')
     
-    # Guardar resultados de subescalas
+    # Guardar resultados combinados (subescalas + Media_Global)
     if subscale_results:
         subscale_df = pd.DataFrame(subscale_results)
         subscale_df.to_csv(subscale_file, index=False, encoding='utf-8')
-        print(f"Resultados de subescalas guardados en: {subscale_file}")
-    
-    # Guardar resultados globales
-    if global_results:
-        global_df = pd.DataFrame(global_results)
-        global_df.to_csv(global_file, index=False, encoding='utf-8')
-        print(f"Resultados de media global guardados en: {global_file}")
-
-def print_summary(subscale_results, global_results):
-    """Imprimir un resumen de los resultados"""
-    print("\n" + "="*80)
-    print("RESUMEN DE RESULTADOS")
-    print("="*80)
-    
-    # Agrupar por participante
-    participants = sorted(set(r['Participante'] for r in subscale_results))
-    
-    for participant in participants:
-        print(f"\nParticipante: {participant}")
-        print("-" * 60)
-        
-        # Obtener todas las fases para este participante
-        participant_phases = sorted(set(r['Fase'] for r in subscale_results if r['Participante'] == participant))
-        
-        for phase in participant_phases:
-            print(f"\n{phase}:")
-            
-            # Encontrar resultados de subescala para este participante y fase
-            subscale_data = next((r for r in subscale_results 
-                                 if r['Participante'] == participant and r['Fase'] == phase), None)
-            
-            if subscale_data:
-                for subscale_name in SUBCALES.keys():
-                    print(f"  {subscale_name}: {subscale_data[subscale_name]}")
-            
-            # Encontrar resultado global para este participante y fase
-            global_data = next((r for r in global_results 
-                               if r['Participante'] == participant and r['Fase'] == phase), None)
-            
-            if global_data:
-                print(f"  Media Global: {global_data['Media_Global']}")
+        print(f"Resultados combinados guardados en: {subscale_file}")
 
 def list_available_files(data_dir):
     """Listar todos los archivos CSV en el directorio de datos (excluyendo el directorio de resultados)"""
@@ -215,11 +169,8 @@ def main():
         
         # Guardar resultados
         save_results(subscale_results, global_results, data_dir, selected_file)
-        
-        # Imprimir resumen
-        print_summary(subscale_results, global_results)
 
-        # Guardar el mapa real → alias en la carpeta Metricas/
+        # Guardar el mapa real -> alias en la carpeta Metricas/ 
         save_mapping()
         
         print(f"\n¡Procesamiento completado! Se procesaron {len(subscale_results)} registros.")
