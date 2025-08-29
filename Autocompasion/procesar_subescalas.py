@@ -1,5 +1,8 @@
 import os
 import pandas as pd
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from anonimizador import anonymize_name, save_mapping
 
 # Define subescalas y sus preguntas correspondientes

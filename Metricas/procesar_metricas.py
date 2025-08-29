@@ -3,6 +3,9 @@ import csv
 import json
 import re
 from collections import defaultdict
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from anonimizador import anonymize_name, save_mapping
 
 # Directories to process

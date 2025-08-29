@@ -2,7 +2,6 @@ import os
 import re
 import pandas as pd
 
-
 def _extract_phase_parts(phase_value: str):
     """Extrae numero de fase y etapa (PRE/POST) desde valores como 'FASE 2 PRE'.
     Devuelve (fase_numero:int, etapa:str) o (None, None) si no coincide.
@@ -16,8 +15,6 @@ def _extract_phase_parts(phase_value: str):
     fase_num = int(match.group(1))
     etapa = match.group(2).upper()
     return fase_num, etapa
-
-
 
 
 def _identify_subscale_columns(df: pd.DataFrame):
