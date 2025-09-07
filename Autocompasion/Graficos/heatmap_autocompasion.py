@@ -94,7 +94,7 @@ def create_autocompasion_heatmap():
     # Crear leyenda personalizada
     legend_elements = [
         mpatches.Patch(color=colors[0], label='Bajo (1.0 - 2.49)'),
-        mpatches.Patch(color=colors[1], label='Medio (2.5 - 3.5)'),
+        mpatches.Patch(color=colors[1], label='Moderado (2.5 - 3.5)'),
         mpatches.Patch(color=colors[2], label='Alto (3.51 - 5.0)')
     ]
     

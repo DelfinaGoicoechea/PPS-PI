@@ -91,7 +91,7 @@ def process_experience_data(csv_file_path):
             'Participante': participant,
             'Fase': phase,
             **subscale_means,
-            'Media_Global': global_mean
+            'Puntaje_global': global_mean
         }
         subscale_results.append(subscale_row)
     

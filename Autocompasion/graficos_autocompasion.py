@@ -62,8 +62,8 @@ def plot_individual_overall_scores(df, output_dir):
         post_data = df_filtered[(df_filtered['Participante'] == participant) & 
                                (df_filtered['Etapa'] == 'POST')]
         
-        pre_score = pre_data['Media_Global'].mean() if not pre_data.empty else 0
-        post_score = post_data['Media_Global'].mean() if not post_data.empty else 0
+        pre_score = pre_data['Puntaje_global'].mean() if not pre_data.empty else 0
+        post_score = post_data['Puntaje_global'].mean() if not post_data.empty else 0
         
         pre_scores.append(pre_score)
         post_scores.append(post_score)
@@ -180,8 +180,8 @@ def plot_boxplot_overall_scores(df, output_dir):
         fase_num = "X"
     '''
     # Preparar datos para boxplot
-    pre_scores = df_filtered[df_filtered['Etapa'] == 'PRE']['Media_Global'].dropna()
-    post_scores = df_filtered[df_filtered['Etapa'] == 'POST']['Media_Global'].dropna()
+    pre_scores = df_filtered[df_filtered['Etapa'] == 'PRE']['Puntaje_global'].dropna()
+    post_scores = df_filtered[df_filtered['Etapa'] == 'POST']['Puntaje_global'].dropna()
     
     # Crear figura
     fig, ax = plt.subplots(figsize=(10, 8))
