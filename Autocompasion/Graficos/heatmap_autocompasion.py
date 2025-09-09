@@ -35,7 +35,7 @@ def create_autocompasion_heatmap():
     # Seleccionar las columnas para el heatmap
     columns_to_plot = [
         'Auto-amabilidad', 'Humanidad_comun', 'Mindfulness', 
-        'Auto-juicio', 'Aislamiento', 'Sobre-identificacion', 'Puntaje global'
+        'Auto-juicio', 'Aislamiento', 'Sobre-identificacion', 'Puntaje_global'
     ]
     
     # Crear la matriz de datos para el heatmap (respetando el orden definido)
@@ -79,7 +79,7 @@ def create_autocompasion_heatmap():
     cbar.ax.set_ylabel('Puntaje', fontsize=14, fontweight='bold', labelpad=10)
     
     # Configurar etiquetas y título
-    plt.title('Heatmap de Autocompasión - Fase 2 (Pre y Post)', 
+    plt.title('Heatmap de Autocompasión - Fase 2: PRE vs POST', 
               fontsize=16, fontweight='bold', pad=20)
     plt.xlabel('Subescalas', fontsize=14, fontweight='bold')
     plt.ylabel('Participantes', fontsize=14, fontweight='bold', labelpad=15)

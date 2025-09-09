@@ -54,7 +54,7 @@ bars2 = ax.bar(x + width/2, post_scores, width, label='POST', color='dimgray', e
 # Configurar el eje X
 ax.set_xlabel('Participantes', fontsize=14, fontweight='bold', labelpad=15)
 ax.set_ylabel('Puntaje global EAC', fontsize=14, fontweight='bold', labelpad=15)
-ax.set_title('Puntajes globales individuales - PRE vs POST', fontsize=16, fontweight='bold', pad=20)
+ax.set_title('Puntajes globales individuales - Fase 2: PRE vs POST', fontsize=16, fontweight='bold', pad=20)
 
 # Configurar las etiquetas del eje X
 ax.set_xticks(x)
