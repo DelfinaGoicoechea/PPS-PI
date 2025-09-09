@@ -45,13 +45,14 @@ def plot_grouped_bar_chart(participants, phases, values, metric_name, metric_key
             ax.text(rect.get_x() + rect.get_width()/2, rect.get_height() + max(values[phase])*0.02,
                     f'{val:.2f}', ha='center', va='bottom', fontsize=9)
 
-    ax.set_xlabel('Participante', fontsize=12, fontweight='bold')
-    ax.set_ylabel('Valor', fontsize=12, fontweight='bold')
-    ax.set_title(f'Comparación por Participante: {metric_name}', fontsize=14, fontweight='bold', pad=20)
+    ax.set_xlabel('Participante', fontsize=12, fontweight='bold', labelpad=15)
+    ax.set_ylabel('Valor', fontsize=12, fontweight='bold', labelpad=15)
+    metric_name = metric_name.replace('Metrica ', '').capitalize()
+    ax.set_title(metric_name, fontsize=14, fontweight='bold', pad=20)
     ax.set_xticks(x)
     ax.set_xticklabels(participants, rotation=30, ha='right', fontsize=11)
     ax.legend(title='Fase')
-    ax.grid(axis='y', alpha=0.3, linestyle='--')
+    #ax.grid(axis='y', alpha=0.3, linestyle='--')
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     plt.tight_layout()
@@ -60,9 +61,9 @@ def plot_grouped_bar_chart(participants, phases, values, metric_name, metric_key
     safe_metric_name = metric_key.replace(' ', '_')
     filename = f'{safe_metric_name}_grupo.png'
     filepath = os.path.join(output_dir, filename)
-    plt.savefig(filepath, bbox_inches='tight')
+    plt.savefig(filepath, bbox_inches='tight', dpi=300)
     plt.close(fig)
-    print(f'Gráfico guardado: {filepath}')
+    #print(f'Gráfico guardado: {filepath}')
 
 def main():
     print('Generando gráficos de barras agrupadas por participante...')

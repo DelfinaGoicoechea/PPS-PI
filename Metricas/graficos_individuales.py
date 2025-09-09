@@ -4,12 +4,12 @@ from procesar_metricas import process_all_files
 
 # Labels for plotting
 METRIC_LABELS = {
-    "collider_entries": "Entradas Collider",
-    "sound_decrements": "Decrementos Sonido",
-    "flower_openings": "Aperturas Flor",
-    "time_in_collider": "Tiempo en Collider (s)",
-    "time_stationary": "Tiempo Inmóvil (s)",
-    "time_flower_open": "Tiempo Flor Abierta (s)"
+    "collider_entries": "Entradasc collider",
+    "sound_decrements": "Decrementos sonido",
+    "flower_openings": "Aperturas flor",
+    "time_in_collider": "Tiempo en collider (s)",
+    "time_stationary": "Tiempo inmovil (s)",
+    "time_flower_open": "Tiempo flor abierta (s)"
 }
 
 def ensure_output_dir():
@@ -20,7 +20,14 @@ def ensure_output_dir():
 
 def plot_person_comparison(person, phases, output_dir):
     """Generate a comparison chart for one person's metrics between phases"""
-    metrics = list(METRIC_LABELS.keys())
+    metrics = [
+        "flower_openings",
+        "time_flower_open",
+        "collider_entries",
+        "time_in_collider",
+        "sound_decrements",
+        "time_stationary",
+    ]
     labels = [METRIC_LABELS[m] for m in metrics]
     fase1 = [phases.get("Fase1", {}).get(m, 0) for m in metrics]
     fase2 = [phases.get("Fase2", {}).get(m, 0) for m in metrics]
@@ -46,11 +53,11 @@ def plot_person_comparison(person, phases, output_dir):
     
     ax.set_xticks(x)
     ax.set_xticklabels(labels, rotation=20, ha='right')
-    ax.set_xlabel("Métricas", fontweight='bold')
-    ax.set_ylabel("Valor", fontweight='bold')
-    ax.set_title(f"Comparación de métricas: {person.capitalize()}", fontweight='bold')
+    ax.set_xlabel("Metricas", fontweight='bold', labelpad=10)
+    ax.set_ylabel("Valor", fontweight='bold', labelpad=15)
+    ax.set_title(f"Comparacion de metricas: {person.capitalize()}", fontweight='bold')
     ax.legend()
-    ax.grid(axis='y', alpha=0.3)
+    #ax.grid(axis='y', alpha=0.3)
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     plt.tight_layout()
@@ -61,20 +68,20 @@ def plot_person_comparison(person, phases, output_dir):
     filepath = os.path.join(output_dir, filename)
     plt.savefig(filepath, bbox_inches='tight', dpi=300)
     plt.close(fig)
-    print(f'Gráfico guardado: {filepath}')
+    #print(f'Grafico guardado: {filepath}')
 
 def generate_all_graphs():
     """Generate comparison graphs for all persons"""
     # Import data from the processing script
     person_results = process_all_files()
     
-    print("Generando gráficos individuales...")
+    print("Generando graficos individuales...")
     
     # Create output directory
     output_dir = ensure_output_dir()
     
     for person, phases in person_results.items():
-        print(f"Generando gráfico para: {person.capitalize()}")
+        #print(f"Generando grafico para: {person.capitalize()}")
         plot_person_comparison(person, phases, output_dir)
 
 def main():
@@ -82,9 +89,9 @@ def main():
     try:
         generate_all_graphs()
         output_dir = ensure_output_dir()
-        print(f"¡Todos los gráficos han sido generados en {output_dir}!")
+        print(f"¡Todos los graficos han sido generados en {output_dir}!")
     except Exception as e:
-        print(f"Error al generar los gráficos: {e}")
+        print(f"Error al generar los graficos: {e}")
 
 if __name__ == "__main__":
     main() 
